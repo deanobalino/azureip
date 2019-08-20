@@ -2,5 +2,5 @@
 !/.gitignore
 build/
 dist/
-azureip.egg.info/
+azureip.egg-info/
 setup.py
