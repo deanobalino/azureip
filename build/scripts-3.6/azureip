@@ -1,0 +1,69 @@
+#!python
+
+
+"""
+    A simple tool to check wether a given IP Address resides within an Azure Subnet.
+
+    You can learn more about Microsoft Azure IP ranges and retrieve the raw list yourself from here: https://docs.microsoft.com/en-us/rest/api/virtualnetwork/servicetags/list
+
+    Created with ❤️  by  @deanbryen
+"""
+
+import click
+import requests
+import netaddr  
+
+#Get IP Addresses from Microsoft site
+def get_ip_addresses():
+    url = 'https://download.microsoft.com/download/7/1/D/71D86715-5596-4529-9B13-DA13A5DE5B63/ServiceTags_Public_20190729.json'
+    response = requests.get(url)
+    #print(response.json()['values'][0]['name'])
+    return response.json()['values']
+
+#Check if IP Address is included in an Azure range
+def check_addresses(ip_to_check, ip_addresses):
+    count = 0
+    #loop through the different Azure Services
+    for service in ip_addresses:
+        current_service = ''
+        current_service = service['name']
+        #All IPs are in the AzureCloud service, so exclude this.
+        if current_service != 'AzureCloud':
+            #print('Checking service: ' + current_service)
+            service_ranges = service['properties']['addressPrefixes']
+            #Loop through each CIDR block and check against netaddr
+            for cidr_block in service_ranges:
+                network = netaddr.IPNetwork(cidr_block)
+                address = ip_to_check
+                if address in network:
+                    count = count + 1
+                    click.echo(click.style('------------------', bold=True, fg='green'))
+                    click.echo(click.style('MATCH FOUND', bold=True, fg='green'))
+                    click.echo('IP Address: ' + address)
+                    click.echo('Network: ' + cidr_block)
+                    click.echo('Service: ' + current_service) 
+                    click.echo(click.style('------------------', bold=True, fg='green'))
+    if count == 0:
+        click.echo(click.style('------------------', bold=True, fg='red'))
+        click.echo(click.style('NO MATCHES FOUND', bold=True, fg='red'))
+        click.echo(click.style('------------------', bold=True, fg='red'))
+    else: 
+        click.echo(click.style('------------------', bold=True, fg='blue'))
+        click.echo(click.style('TOTAL MACHES: ' + str(count), bold=True, fg='blue'))
+        click.echo(click.style('------------------', bold=True, fg='blue'))
+@click.command()
+@click.argument('ip')
+def main(ip):
+    """
+    A simple tool to check wether a given IP Address resides within an Azure Subnet.
+
+    You can learn more about Microsoft Azure IP ranges and retrieve the raw list yourself from here: https://docs.microsoft.com/en-us/rest/api/virtualnetwork/servicetags/list
+
+    Created with ❤️  by  @deanbryen
+    """
+    ip_addresses = get_ip_addresses()
+    check_addresses(ip, ip_addresses)
+    #print(ip_addresses)
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,7 @@
+README.md
+azureip
+setup.py
+azureip.egg-info/PKG-INFO
+azureip.egg-info/SOURCES.txt
+azureip.egg-info/dependency_links.txt
+azureip.egg-info/top_level.txt
