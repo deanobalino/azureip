@@ -1,2 +1,6 @@
 .*
 !/.gitignore
+build/
+dist/
+azureip.egg.info/
+setup.py
