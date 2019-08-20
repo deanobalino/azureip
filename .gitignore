@@ -4,3 +4,4 @@ build/
 dist/
 azureip.egg-info/
 setup.py
+publish.sh

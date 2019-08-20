@@ -17,7 +17,6 @@ import netaddr
 def get_ip_addresses():
     url = 'https://download.microsoft.com/download/7/1/D/71D86715-5596-4529-9B13-DA13A5DE5B63/ServiceTags_Public_20190729.json'
     response = requests.get(url)
-    #print(response.json()['values'][0]['name'])
     return response.json()['values']
 
 #Check if IP Address is included in an Azure range
@@ -29,7 +28,6 @@ def check_addresses(ip_to_check, ip_addresses):
         current_service = service['name']
         #All IPs are in the AzureCloud service, so exclude this.
         if current_service != 'AzureCloud':
-            #print('Checking service: ' + current_service)
             service_ranges = service['properties']['addressPrefixes']
             #Loop through each CIDR block and check against netaddr
             for cidr_block in service_ranges:
@@ -63,7 +61,6 @@ def main(ip):
     """
     ip_addresses = get_ip_addresses()
     check_addresses(ip, ip_addresses)
-    #print(ip_addresses)
 
 if __name__ == "__main__":
     main()
