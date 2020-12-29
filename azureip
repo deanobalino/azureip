@@ -15,7 +15,7 @@ import netaddr
 
 #Get IP Addresses from Microsoft site
 def get_ip_addresses():
-    url = 'https://download.microsoft.com/download/7/1/D/71D86715-5596-4529-9B13-DA13A5DE5B63/ServiceTags_Public_20190729.json'
+    url = 'https://download.microsoft.com/download/7/1/D/71D86715-5596-4529-9B13-DA13A5DE5B63/ServiceTags_Public_20201221.json'
     response = requests.get(url)
     return response.json()['values']
 
