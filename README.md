@@ -1,6 +1,6 @@
 # Azure IP Check
 
-A Simple tool for checking if an IP address is within a Microsoft Azure subnet. 
+>WARNING: This tool is no longer maintained and is deprecated. It has been replaced with [Cloud IP Checker](https://github.com/deanobalino/cloudipchecker) which has much richer functionality.
 
 ### Installation
 
